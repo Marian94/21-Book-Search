@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Jumbotron,
   Container,
@@ -8,6 +7,7 @@ import {
 } from "react-bootstrap";
 import { useQuery, useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
+import { removeBookId } from "../utils/localStorage";
 import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
 
@@ -27,12 +27,14 @@ const SavedBooks = () => {
       await removeBook({
         variables: { bookId },
       });
+      removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
   };
 
   // if data isn't here yet, say so
+
   if (loading) {
     return <h2>LOADING...</h2>;
   }
