@@ -6,7 +6,7 @@ const resolvers = {
   Query: {
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).population("books");
+        return User.findOne({ _id: context.user._id }).populate("books");
       }
       throw new AuthenticationError("[X] ERROR, YOU MUST LOGIN FIRST!");
     },
@@ -45,10 +45,10 @@ const resolvers = {
           {
             _id: context.user._id,
           },
-          { $pull: { saveBooks: { bookId: bookId } } },
+          { $pull: { savedBooks: { bookId: bookId } } },
           { new: true }
         );
-        return updateUser;
+        return updatedUser;
       }
       throw new AuthenticationError(
         "[X] REMOVE BOOK ERROR, YOU MUST LOGIN FIRST!"
